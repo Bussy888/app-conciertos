@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const EventDetailsScreen = ({ route, navigation }) => {
     const { title, month, day, imageUri, description } = route.params;
@@ -8,7 +10,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
         <View style={styles.container}>
             <ImageBackground source={{ uri: imageUri }} style={styles.image}>
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                    <Text style={styles.backButtonText}>←</Text>
+                    <Icon name='arrow-back' size={25} color="#ffffff"/>
                 </TouchableOpacity>
             </ImageBackground>
             <View style={styles.detailsContainer}>
@@ -21,8 +23,15 @@ const EventDetailsScreen = ({ route, navigation }) => {
                     <Text style={styles.tab}>LOCATION</Text>
                 </View>
                 <Text style={styles.description}>{description}</Text>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity>
+                <LinearGradient
+                    colors={['#6ED0E0', '#E04989']}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    style={styles.button}>
                     <Text style={styles.buttonText}>Buy tickets for $79</Text>
+                </LinearGradient>
+                    
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.saveButton}>
                     <Text style={styles.saveButtonText}>Save for later</Text>
@@ -44,7 +53,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
     backButton: {
-        margin: 16, padding: 8, backgroundColor: 'rgba(0, 0, 0, 0.5)', borderRadius: 8
+        margin: 16, padding: 8, backgroundColor: 'rgba(0, 0, 0, 0.5)', borderRadius: 8,
+        marginTop:35
     },
     backButtonText: {
         color: '#fff',

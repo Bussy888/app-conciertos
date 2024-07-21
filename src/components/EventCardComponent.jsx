@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-const EventCard = ({ title, month,day, imageUri, description }) => {
+const EventCard = ({ title, month,day, imageUri, description, category }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity  onPress={() => navigation.navigate('EventDetails', { title, month, day, imageUri, description })}>
@@ -11,7 +11,7 @@ const EventCard = ({ title, month,day, imageUri, description }) => {
         <Text style={styles.day}>{day}</Text>
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.subtitle}>CONCERT</Text>
+        <Text style={styles.subtitle}>{category.toUpperCase()}</Text>
         <Text style={styles.title}>{title}</Text>
       </View>
     </ImageBackground>
