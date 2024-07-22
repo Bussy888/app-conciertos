@@ -1,37 +1,96 @@
-import React from 'react';
-import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+// Objeto de mapeo para los nombres completos de los meses
+const monthNames = {
+  1: 'January',
+  2: 'February',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December',
+};
+
 const EventDetailsScreen = ({ route, navigation }) => {
-    const { title, month, day, imageUri, description } = route.params;
+    const { title, month, day, imageUri, description, participants, location, price, time } = route.params;
+    const [activeTab, setActiveTab] = useState('ABOUT');
+
+    const renderParticipant = ({ item }) => (
+        <View style={styles.participantContainer}>
+            <Image source={{ uri: item.photo }} style={styles.participantImage} />
+            <Text style={styles.participantName}>{item.name}</Text>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
-            <ImageBackground source={{ uri: imageUri }} style={styles.image}>
-                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                    <Icon name='arrow-back' size={25} color="#ffffff"/>
-                </TouchableOpacity>
-            </ImageBackground>
+            <View style={styles.imageContainer}>
+                <ImageBackground source={{ uri: imageUri }} style={styles.image}>
+                    <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                        <Icon name='arrow-back' size={25} color="#ffffff" />
+                    </TouchableOpacity>
+                    <LinearGradient
+                        colors={['transparent', 'rgba(0, 0, 0, 1)']}
+                        style={styles.gradient}
+                    />
+                </ImageBackground>
+            </View>
             <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.date}>{month} {day}</Text>
-                
-                <View style={styles.tabContainer}>
-                    <Text style={[styles.tab, styles.activeTab]}>ABOUT</Text>
-                    <Text style={styles.tab}>PARTICIPANTS</Text>
-                    <Text style={styles.tab}>LOCATION</Text>
+                <View style={styles.timeContainer}>
+                    <View style={styles.dateContainer}>
+                        <Icon name="calendar" size={20} color="#aaa" style={styles.calendarIcon} />
+                        <Text style={styles.date}>{monthNames[parseInt(month)]} {day}</Text>
+                    </View>
+                    <View style={styles.dateContainer}> 
+                        <Icon name="time-outline" size={20} color="#aaa" style={styles.clockIcon} />
+                        <Text style={styles.date}>{time}</Text> 
+                    </View>
                 </View>
-                <Text style={styles.description}>{description}</Text>
+
+                <View style={styles.tabContainer}>
+                    <TouchableOpacity onPress={() => setActiveTab('ABOUT')}>
+                        <Text style={[styles.tab, activeTab === 'ABOUT' && styles.activeTab]}>ABOUT</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setActiveTab('PARTICIPANTS')}>
+                        <Text style={[styles.tab, activeTab === 'PARTICIPANTS' && styles.activeTab]}>PARTICIPANTS</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setActiveTab('LOCATION')}>
+                        <Text style={[styles.tab, activeTab === 'LOCATION' && styles.activeTab]}>LOCATION</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {activeTab === 'ABOUT' && (
+                    <Text style={styles.description}>{description}</Text>
+                )}
+                {activeTab === 'PARTICIPANTS' && (
+                    <FlatList
+                        data={participants}
+                        renderItem={renderParticipant}
+                        keyExtractor={item => item.id}
+                        contentContainerStyle={styles.participantsList}
+                    />
+                )}
+                {activeTab === 'LOCATION' && (
+                    <Text style={styles.description}>{location}</Text>
+                )}
+
                 <TouchableOpacity>
-                <LinearGradient
-                    colors={['#6ED0E0', '#E04989']}
-                    start={{ x: 0, y: 0.5 }}
-                    end={{ x: 1, y: 0.5 }}
-                    style={styles.button}>
-                    <Text style={styles.buttonText}>Buy tickets for $79</Text>
-                </LinearGradient>
-                    
+                    <LinearGradient
+                        colors={['#6ED0E0', '#E04989']}
+                        start={{ x: 0, y: 0.5 }}
+                        end={{ x: 1, y: 0.5 }}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>Buy tickets for ${price}</Text>
+                    </LinearGradient>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.saveButton}>
                     <Text style={styles.saveButtonText}>Save for later</Text>
@@ -46,19 +105,36 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#000'
     },
-    image: {
+    imageContainer: {
+        position: 'relative',
         width: '100%',
         height: 300,
+    },
+    image: {
+        width: '100%',
+        height: '100%',
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
     },
-    backButton: {
-        margin: 16, padding: 8, backgroundColor: 'rgba(0, 0, 0, 0.5)', borderRadius: 8,
-        marginTop:35
+    gradient: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 150,
+        opacity: 1
     },
-    backButtonText: {
-        color: '#fff',
-        fontSize: 24
+    backButton: {
+        margin: 16,
+        padding: 8,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderRadius: 8,
+        marginTop: 35
+    },
+    timeContainer: {
+        width: 230,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     detailsContainer: {
         padding: 16
@@ -69,10 +145,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 8
     },
+    dateContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 16
+    },
+    calendarIcon: {
+        marginRight: 8
+    },
     date: {
         color: '#aaa',
-        fontSize: 16,
-        marginBottom: 16
+        fontSize: 16
     },
     tabContainer: {
         flexDirection: 'row',
@@ -85,7 +168,10 @@ const styles = StyleSheet.create({
     },
     activeTab: {
         color: '#fff',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        borderBottomWidth: 2,
+        borderBottomColor: '#fff',
+        paddingBottom: 4
     },
     description: {
         color: '#fff',
@@ -114,6 +200,24 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16
     },
+    participantsList: {
+        marginBottom: 16
+    },
+    participantContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 12
+    },
+    participantImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        marginRight: 12
+    },
+    participantName: {
+        color: '#fff',
+        fontSize: 16
+    }
 });
 
 export default EventDetailsScreen;

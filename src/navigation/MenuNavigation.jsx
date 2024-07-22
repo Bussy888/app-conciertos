@@ -9,6 +9,7 @@ import CalendarScreen from '../screens/CalendarScreen';
 import TicketsScreen from '../screens/TicketsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
+import SearchScreen from '../screens/SearchScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,6 +18,15 @@ const ExploreStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ExploreMenu" component={ExploreScreen} />
+      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen name="EventDetails" component={EventDetailsScreen} />
+    </Stack.Navigator>
+  );
+};
+const CalendarStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="CalendarMenu" component={CalendarScreen} />
       <Stack.Screen name="EventDetails" component={EventDetailsScreen} />
     </Stack.Navigator>
   );
@@ -47,7 +57,7 @@ const MenuNavigation = () => {
         })}
       >
         <Tab.Screen name="Explore" component={ExploreStack} screenOptions={{ headerShown: false }}/>
-        <Tab.Screen name="Calendar" component={CalendarScreen} screenOptions={{ headerShown: false }}/>
+        <Tab.Screen name="Calendar" component={CalendarStack} screenOptions={{ headerShown: false }}/>
         <Tab.Screen name="Tickets" component={TicketsScreen} screenOptions={{ headerShown: false }}/>
         <Tab.Screen name="Settings" component={SettingsScreen} screenOptions={{ headerShown: false }}/>
       </Tab.Navigator>

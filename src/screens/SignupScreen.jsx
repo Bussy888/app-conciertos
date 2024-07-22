@@ -1,15 +1,42 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {  collection, addDoc } from 'firebase/firestore';
+import { auth, db } from '../config/firebase'; // Asegúrate de importar tu configuración de Firebase
+
 
 const SignupScreen = ({ navigation }) => {
-    const handleCreateAccount = () => {
-        // Aquí puedes implementar la lógica para crear la cuenta
-        console.log('Crear Cuenta');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleCreateAccount = async () => {
+        try {
+            // Crear usuario en Firebase Authentication
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Almacenar detalles del usuario en Firestore
+            await addDoc(collection(db, 'users'), {
+                uid: user.uid,
+                name,
+                surname,
+                username,
+                email,
+            });
+
+            Alert.alert('Éxito', 'Cuenta creada con éxito');
+            navigation.navigate('login'); // Navegar a la pantalla de inicio de sesión
+        } catch (error) {
+            console.error('Error al crear la cuenta:', error);
+            Alert.alert('Error', error.message);
+        }
     };
 
     const goToLogin = () => {
-        // Navegar a la pantalla de inicio de sesión
         navigation.navigate('login');
     };
 
@@ -20,27 +47,37 @@ const SignupScreen = ({ navigation }) => {
                 <TextInput
                     style={styles.input}
                     placeholder="Nombre"
+                    value={name}
+                    onChangeText={setName}
                     autoCapitalize="words"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Apellido"
+                    value={surname}
+                    onChangeText={setSurname}
                     autoCapitalize="words"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Username"
+                    value={username}
+                    onChangeText={setUsername}
                     autoCapitalize="none"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Correo Electrónico"
+                    value={email}
+                    onChangeText={setEmail}
                     keyboardType="email-address"
                     autoCapitalize="none"
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Contraseña"
+                    value={password}
+                    onChangeText={setPassword}
                     secureTextEntry
                     autoCapitalize="none"
                 />
