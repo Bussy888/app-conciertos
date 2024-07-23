@@ -7,9 +7,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ExploreScreen from '../screens/ExploreScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import TicketsScreen from '../screens/TicketsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import SearchScreen from '../screens/SearchScreen';
+import EditProfileScreen from '../screens/EditProfileScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,6 +24,7 @@ const ExploreStack = () => {
     </Stack.Navigator>
   );
 };
+
 const CalendarStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -31,6 +33,16 @@ const CalendarStack = () => {
     </Stack.Navigator>
   );
 };
+
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ProfileMenu" component={ProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const MenuNavigation = () => {
   return (
       <Tab.Navigator
@@ -44,8 +56,8 @@ const MenuNavigation = () => {
               iconName = focused? 'calendar': 'calendar-outline';
             } else if (route.name === 'Tickets') {
               iconName = focused? 'ticket': 'ticket-outline';
-            } else if (route.name === 'Settings') {
-              iconName = focused? 'settings': 'settings-outline';
+            } else if (route.name === 'Profile') {
+              iconName = focused? 'person': 'person-outline';
             }
 
             return <Icon name={iconName} size={size} color={color} />;
@@ -59,7 +71,7 @@ const MenuNavigation = () => {
         <Tab.Screen name="Explore" component={ExploreStack} screenOptions={{ headerShown: false }}/>
         <Tab.Screen name="Calendar" component={CalendarStack} screenOptions={{ headerShown: false }}/>
         <Tab.Screen name="Tickets" component={TicketsScreen} screenOptions={{ headerShown: false }}/>
-        <Tab.Screen name="Settings" component={SettingsScreen} screenOptions={{ headerShown: false }}/>
+        <Tab.Screen name="Profile" component={ProfileStack} screenOptions={{ headerShown: false }}/>
       </Tab.Navigator>
   );
 };
