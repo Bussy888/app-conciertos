@@ -1,59 +1,47 @@
 import React from 'react';
-import { View,SafeAreaView, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, SafeAreaView, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-
-const sampleCartItems = [
-  {
-    id: '1',
-    title: 'Concierto The Weekend',
-    date: 'July 30, 2024',
-    image: 'https://i.pinimg.com/originals/c9/21/a1/c921a14461d300ce80f11e171a46c251.jpg',
-    quantity: 1,
-  },
-  {
-    id: '2',
-    title: 'Concierto Emilia',
-    date: 'August 4, 2024',
-    image: 'https://i.pinimg.com/originals/c3/a5/0c/c3a50c845e61660747f1ed56e3574de5.jpg',
-    quantity: 4,
-  },
-  {
-    id: '3',
-    title: 'Concierto Coldplay',
-    date: 'August 28, 2024',
-    image: 'https://i.pinimg.com/originals/58/5e/4a/585e4a6f79ddab9d21e1ad8cb3660201.jpg',
-    quantity: 2,
-  },
-];
+import useCartStore from '../store/cartStore';
 
 const TicketsScreen = () => {
+  const cartItems = useCartStore((state) => state.cartItems);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+
   const renderCartItem = ({ item }) => (
     <SafeAreaView style={styles.card}>
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <View style={styles.details}>
-      <TouchableOpacity style={styles.button}>
-      <LinearGradient
-      colors={['#6ED0E0', '#E04989']}
-      start={{ x: 0, y: 0.5 }}
-      end={{ x: 1, y: 0.5 }}
-      style={styles.container}>
-      
-          <Text style={styles.buttonText}>Comprar</Text>
-        
-    </LinearGradient>
-    </TouchableOpacity>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.date}>{item.date}</Text>
-        <Text style={styles.quantity}>Cantidad: {item.quantity}</Text>
-        
+    <Image source={{ uri: item.image }} style={styles.image} />
+    <View style={styles.details}>
+      <Text style={styles.title}>{item.title}</Text>
+      <Text style={styles.date}>{item.date}</Text>
+      <Text style={styles.quantity}>Cantidad: {item.quantity}</Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.flexButton}>
+          <LinearGradient
+            colors={['#6ED0E0', '#E04989']}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={styles.gradientButton}>
+            <Text style={styles.secondaryButtonText}>Ver Ticket</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.flexButton} onPress={() => removeFromCart(item.id)}>
+          <LinearGradient
+          colors={['#B5B2B2', '#FF0000' ]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.gradientButton}>
+          <Text style={styles.secondaryButtonText}>Reembolso</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
+  </SafeAreaView>
   );
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={sampleCartItems}
+        data={cartItems}
         renderItem={renderCartItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
@@ -99,21 +87,40 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: 10,
   },
-  button: {
+  buttonContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  flexButton: {
+    flex: 1,
+    margin: 5,
+  },
+  gradientButton: {
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  secondaryButton: {
     backgroundColor: '#6ED0E0',
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
-   removeButton: {
+  removeButton: {
     backgroundColor: '#d9534f',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  secondaryButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
 
 export default TicketsScreen;
-
