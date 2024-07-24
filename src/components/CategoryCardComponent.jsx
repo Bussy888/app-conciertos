@@ -1,12 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const CategoryCard = ({ title, events }) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.events}>{events}</Text>
-    </View>
+    <TouchableOpacity onPress={() => navigation.navigate('Category', { category: title })}>
+      <View style={styles.container}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.events}>{events}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
