@@ -6,6 +6,7 @@ import CategoryCard from '../components/CategoryCardComponent';
 import { db } from '../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 
+
 const ExploreScreen = () => {
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
