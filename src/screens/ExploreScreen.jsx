@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import SearchBar from '../components/SearchBarComponent';
 import EventCard from '../components/EventCardComponent';
-import ClaimCard from '../components/ClaimCardComponent';
 import CategoryCard from '../components/CategoryCardComponent';
 import { db } from '../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -62,7 +61,7 @@ const ExploreScreen = () => {
     setFilteredEvents(filtered);
   };
 
-  // Ordena los eventos por fecha completa y selecciona los 3 más recientes
+  // Ordena los eventos por fecha completa y selecciona los 5 más recientes
   const getPopularEvents = () => {
     return filteredEvents
       .slice() // Crea una copia para no mutar el estado
@@ -71,9 +70,19 @@ const ExploreScreen = () => {
         const dateB = new Date(b.year, b.month - 1, b.day); // Crea una fecha para b
         return dateA - dateB; // Ordena de más reciente a más antiguo
       })
-      .slice(0, 5); // Selecciona los 3 eventos más recientes
+      .slice(0, 5); // Selecciona los 5 eventos más recientes
   };
 
+   // Selecciona un evento al azar
+   const getRandomEvent = () => {
+    if (filteredEvents.length === 0) {
+      return null; // Manejo de caso donde no hay eventos filtrados
+    }
+    const randomIndex = Math.floor(Math.random() * filteredEvents.length);
+    return filteredEvents[randomIndex];
+  };
+
+  const randomEvent = getRandomEvent();
   return (
     <View style={styles.container}>
       <ScrollView style={{ padding: 16, backgroundColor: '#000', paddingTop: 40 }}>
@@ -99,7 +108,22 @@ const ExploreScreen = () => {
           ))}
         </ScrollView>
         <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', marginTop: 16, marginBottom: 8 }}>For You</Text>
-        <ClaimCard />
+        {randomEvent && (
+          <EventCard
+            key={randomEvent.id}
+            title={randomEvent.title}
+            month={randomEvent.month}
+            day={randomEvent.day}
+            imageUri={randomEvent.imageUri}
+            description={randomEvent.description}
+            category={randomEvent.category}
+            location={randomEvent.location}
+            participants={randomEvent.participants || []} 
+            price={randomEvent.price}
+            time={randomEvent.time}
+            cardStyle={styles.card}
+          />
+        )}
         <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold', marginTop: 16, marginBottom: 8 }}>Categories</Text>
         <ScrollView horizontal>
           {categories.map(category => (
@@ -120,6 +144,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
   },
+  card:{
+    width: '100%',
+    height: 200
+  }
 });
 
 export default ExploreScreen;
