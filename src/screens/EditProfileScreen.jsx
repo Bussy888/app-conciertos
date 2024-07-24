@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, SafeAreaView, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import LoginScreen from './LoginScreen';
 import { getAuth, updateProfile } from 'firebase/auth';
-import { launchImageLibrary } from 'react-native-image-picker';
 import profileImages from '../data/profileImage';
 import { FlatList } from 'react-native-gesture-handler';
 
