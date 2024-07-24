@@ -11,6 +11,9 @@ import ProfileScreen from '../screens/ProfileScreen';
 import EventDetailsScreen from '../screens/EventDetailsScreen';
 import SearchScreen from '../screens/SearchScreen';
 import EditProfileScreen from '../screens/EditProfileScreen';
+import CategoryScreen from '../screens/CategoryScreen';
+import TicketInSaleScreen from '../screens/TicketsInSaleScreen';
+import PurchaseCompletedScreen from '../screens/PurchaseCompletedScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -21,6 +24,9 @@ const ExploreStack = () => {
       <Stack.Screen name="ExploreMenu" component={ExploreScreen} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="EventDetails" component={EventDetailsScreen} />
+      <Stack.Screen name="Category" component={CategoryScreen} />
+      <Stack.Screen name="TicketInSale" component={TicketInSaleScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="PurchaseCompleted" component={PurchaseCompletedScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
@@ -30,6 +36,8 @@ const CalendarStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="CalendarMenu" component={CalendarScreen} />
       <Stack.Screen name="EventDetails" component={EventDetailsScreen} />
+      <Stack.Screen name="TicketInSale" component={TicketInSaleScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="PurchaseCompleted" component={PurchaseCompletedScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
@@ -45,34 +53,34 @@ const ProfileStack = () => {
 
 const MenuNavigation = () => {
   return (
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
 
-            if (route.name === 'Explore') {
-              iconName = focused? 'globe':'globe-outline';
-            } else if (route.name === 'Calendar') {
-              iconName = focused? 'calendar': 'calendar-outline';
-            } else if (route.name === 'Tickets') {
-              iconName = focused? 'ticket': 'ticket-outline';
-            } else if (route.name === 'Profile') {
-              iconName = focused? 'person': 'person-outline';
-            }
+          if (route.name === 'Explore') {
+            iconName = focused ? 'globe' : 'globe-outline';
+          } else if (route.name === 'Calendar') {
+            iconName = focused ? 'calendar' : 'calendar-outline';
+          } else if (route.name === 'Tickets') {
+            iconName = focused ? 'ticket' : 'ticket-outline';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
+          }
 
-            return <Icon name={iconName} size={size} color={color} />;
-          },
-          tabBarStyle: { backgroundColor: '#000' },
-          tabBarActiveTintColor: '#0087BD',
-          tabBarInactiveTintColor: '#888',
-          headerShown: false 
-        })}
-      >
-        <Tab.Screen name="Explore" component={ExploreStack} screenOptions={{ headerShown: false }}/>
-        <Tab.Screen name="Calendar" component={CalendarStack} screenOptions={{ headerShown: false }}/>
-        <Tab.Screen name="Tickets" component={TicketsScreen} screenOptions={{ headerShown: false }}/>
-        <Tab.Screen name="Profile" component={ProfileStack} screenOptions={{ headerShown: false }}/>
-      </Tab.Navigator>
+          return <Icon name={iconName} size={size} color={color} />;
+        },
+        tabBarStyle: { backgroundColor: '#000' },
+        tabBarActiveTintColor: '#0087BD',
+        tabBarInactiveTintColor: '#888',
+        headerShown: false
+      })}
+    >
+      <Tab.Screen name="Explore" component={ExploreStack} screenOptions={{ headerShown: false }} />
+      <Tab.Screen name="Calendar" component={CalendarStack} screenOptions={{ headerShown: false }} />
+      <Tab.Screen name="Tickets" component={TicketsScreen} screenOptions={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={ProfileStack} screenOptions={{ headerShown: false }} />
+    </Tab.Navigator>
   );
 };
 

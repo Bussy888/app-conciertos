@@ -3,12 +3,14 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Text, Modal, Button, Scr
 import { Picker } from '@react-native-picker/picker';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const SearchBar = ({ onSearch, onFilter, locations }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [filters, setFilters] = useState({
-    location: '',
+    location: null, // Utilizamos null para indicar que no se ha seleccionado ninguna ubicación específica inicialmente
     categories: [],
     priceRange: [0, 100],
   });
@@ -28,6 +30,16 @@ const SearchBar = ({ onSearch, onFilter, locations }) => {
     setModalVisible(false);
   };
 
+  const handleLocationChange = (itemValue) => {
+    if (itemValue === 'all') {
+      // Si se selecciona "All locations", reseteamos el filtro de ubicación
+      setFilters({ ...filters, location: null });
+    } else {
+      // De lo contrario, actualizamos el filtro con la ubicación seleccionada
+      setFilters({ ...filters, location: itemValue });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -38,8 +50,14 @@ const SearchBar = ({ onSearch, onFilter, locations }) => {
         onChangeText={setSearchQuery}
         onSubmitEditing={handleSearch}
       />
-      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.filterButton}>
-        <Text style={styles.filterButtonText}>Filters</Text>
+      <TouchableOpacity onPress={() => setModalVisible(true)} >
+        <LinearGradient
+          colors={['#6ED0E0', '#E04989']}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.filterButton}>
+          <Icon name="filter" size={20} color="#ffffff" />
+        </LinearGradient>
       </TouchableOpacity>
 
       <Modal
@@ -53,11 +71,12 @@ const SearchBar = ({ onSearch, onFilter, locations }) => {
             <Text style={styles.modalTitle}>Filter events</Text>
             <Text style={styles.label}>Location</Text>
             <Picker
-              selectedValue={filters.location}
+              selectedValue={filters.location === null ? 'all' : filters.location}
               style={styles.picker}
-              onValueChange={(itemValue) => setFilters({ ...filters, location: itemValue })}
+              onValueChange={handleLocationChange}
+              dropdownIconColor="#ffffff"
             >
-              <Picker.Item label="Select a location" value="" />
+              <Picker.Item label="All locations" value="all" /> 
               {locations.map((location, index) => (
                 <Picker.Item key={index} label={location} value={location} />
               ))}
@@ -87,6 +106,7 @@ const SearchBar = ({ onSearch, onFilter, locations }) => {
             <Text style={styles.label}>Ticket Price</Text>
             <View style={styles.priceRangeContainer}>
               <Text style={styles.priceRangeText}>${filters.priceRange[0]} - ${filters.priceRange[1]}</Text>
+              <Text style={styles.label}>Max Price</Text>
               <Slider
                 style={styles.slider}
                 minimumValue={0}
@@ -98,6 +118,7 @@ const SearchBar = ({ onSearch, onFilter, locations }) => {
                 value={filters.priceRange[1]}
                 onValueChange={(value) => setFilters({ ...filters, priceRange: [filters.priceRange[0], value] })}
               />
+              <Text style={styles.label}>Min Price</Text>
               <Slider
                 style={styles.slider}
                 minimumValue={0}
