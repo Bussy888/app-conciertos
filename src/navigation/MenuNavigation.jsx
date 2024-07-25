@@ -14,6 +14,8 @@ import EditProfileScreen from '../screens/EditProfileScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import TicketInSaleScreen from '../screens/TicketsInSaleScreen';
 import PurchaseCompletedScreen from '../screens/PurchaseCompletedScreen';
+import ReembolsoScreen from '../screens/ReembolsoScreen'; 
+import VerTicketsScreen from '../screens/VerTicketsScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -27,6 +29,8 @@ const ExploreStack = () => {
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="TicketInSale" component={TicketInSaleScreen} options={{ headerShown: false }} />
       <Stack.Screen name="PurchaseCompleted" component={PurchaseCompletedScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="ReembolsoScreen" component={ReembolsoScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="VerTicketsScreen" component={VerTicketsScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 };
@@ -37,7 +41,6 @@ const CalendarStack = () => {
       <Stack.Screen name="CalendarMenu" component={CalendarScreen} />
       <Stack.Screen name="EventDetails" component={EventDetailsScreen} />
       <Stack.Screen name="TicketInSale" component={TicketInSaleScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="PurchaseCompleted" component={PurchaseCompletedScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, SafeAreaView, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
 import useCartStore from '../store/cartStore';
 
 const TicketsScreen = () => {
+  const navigation = useNavigation(); 
   const cartItems = useCartStore((state) => state.cartItems);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
 
@@ -15,7 +17,7 @@ const TicketsScreen = () => {
       <Text style={styles.date}>{item.date}</Text>
       <Text style={styles.quantity}>Cantidad: {item.quantity}</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.flexButton}>
+        <TouchableOpacity style={styles.flexButton} onPress={() => navigation.navigate('VerTicketsScreen', { event: item })}>
           <LinearGradient
             colors={['#6ED0E0', '#E04989']}
             start={{ x: 0, y: 0.5 }}
@@ -24,7 +26,7 @@ const TicketsScreen = () => {
             <Text style={styles.secondaryButtonText}>Ver Ticket</Text>
           </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.flexButton} onPress={() => removeFromCart(item.id)}>
+        <TouchableOpacity style={styles.flexButton} onPress={() => navigation.navigate('ReembolsoScreen', { itemId: item.id })}>
           <LinearGradient
           colors={['#B5B2B2', '#FF0000' ]}
           start={{ x: 0, y: 0.5 }}

@@ -36,9 +36,9 @@ const ProfileScreen = ({ navigation, route }) => {
         <Text style={styles.editButtonText}>Editar perfil</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.ticketsButton}>
-        <Text style={styles.ticketsButtonText}>Mis tickets</Text>
+        <Text style={styles.ticketsButtonText}>Mis Favoritos</Text>
       </TouchableOpacity>
-      <Text style={styles.noTicketsText}>Aun no tiene tickets comprados</Text>
+      <Text style={styles.noTicketsText}>Aun no tiene eventos preferidos</Text>
     </View>
   );
 };
