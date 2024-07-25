@@ -83,7 +83,7 @@ const EventDetailsScreen = ({ route, navigation }) => {
           <Text style={styles.description}>{location}</Text>
         )}
 
-        <TouchableOpacity onPress={() => navigation.navigate('TicketInSale', { title, imageUri, location, date: `${monthNames[month]} ${day}`, time, price })}>
+        <TouchableOpacity onPress={() => navigation.navigate('TicketInSale', { title, imageUri, location, date: `${monthNames[month]} ${day}`, time, price, description })}>
           <LinearGradient
             colors={['#6ED0E0', '#E04989']}
             start={{ x: 0, y: 0.5 }}

@@ -14,7 +14,7 @@ const VerTicketsScreen = () => {
       title: event.title, 
       month: event.month, 
       day: event.day, 
-      imageUri: event.imageUri, 
+      imageUri: event.image, 
       description: event.description, 
       participants: event.participants, 
       location: event.location, 
@@ -26,7 +26,7 @@ const VerTicketsScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{event.title}</Text>
-      <Image source={{ uri: event.imageUri }} style={styles.image} />
+      <Image source={{ uri: event.image }} style={styles.image} />
       <Text style={styles.detail}>Fecha: {event.date}</Text>
       <Text style={styles.detail}>Hora: {event.time}</Text>
       <Text style={styles.detail}>Ubicación: {event.location}</Text>
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    paddingTop:50
   },
   title: {
     color: '#fff',
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+    height: 180,
     borderRadius: 8,
     marginBottom: 16,
   },
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   qrContainer: {
-    marginVertical: 20,
+    marginVertical: 10,
   },
   button: {
     backgroundColor: '#6ED0E0',

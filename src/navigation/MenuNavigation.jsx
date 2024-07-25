@@ -29,8 +29,6 @@ const ExploreStack = () => {
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="TicketInSale" component={TicketInSaleScreen} options={{ headerShown: false }} />
       <Stack.Screen name="PurchaseCompleted" component={PurchaseCompletedScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ReembolsoScreen" component={ReembolsoScreen} options={{ headerShown: false }}/>
-      <Stack.Screen name="VerTicketsScreen" component={VerTicketsScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
 };
@@ -53,7 +51,15 @@ const ProfileStack = () => {
     </Stack.Navigator>
   );
 };
-
+const TicketStack =()=>{
+  return(
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="TicketsMenu" component={TicketsScreen} />
+      <Stack.Screen name="ReembolsoScreen" component={ReembolsoScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="VerTicketsScreen" component={VerTicketsScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  )
+}
 const MenuNavigation = () => {
   return (
     <Tab.Navigator
@@ -81,7 +87,7 @@ const MenuNavigation = () => {
     >
       <Tab.Screen name="Explore" component={ExploreStack} screenOptions={{ headerShown: false }} />
       <Tab.Screen name="Calendar" component={CalendarStack} screenOptions={{ headerShown: false }} />
-      <Tab.Screen name="Tickets" component={TicketsScreen} screenOptions={{ headerShown: false }} />
+      <Tab.Screen name="Tickets" component={TicketStack} screenOptions={{ headerShown: false }} />
       <Tab.Screen name="Profile" component={ProfileStack} screenOptions={{ headerShown: false }} />
     </Tab.Navigator>
   );

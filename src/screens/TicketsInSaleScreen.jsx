@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import useCartStore from '../store/cartStore';
 
 const TicketInSaleScreen = ({ route, navigation }) => {
-  const { title, imageUri, location, date, time, price } = route.params;
+  const { title, imageUri, location, date, time, price, description } = route.params;
   const [quantity, setQuantity] = useState(1);
   const addToCart = useCartStore((state)=> state.addToCart);
 
@@ -13,9 +13,9 @@ const TicketInSaleScreen = ({ route, navigation }) => {
   const handleDecrease = () => setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
 
   const handlePurchase = () => {
-    const item = { id: Date.now().toString(), title, image: imageUri, date, quantity };
+    const item = { id: Date.now().toString(), title, image: imageUri, date, quantity,  description, location, time};
     addToCart(item);
-    navigation.navigate('PurchaseCompleted', { quantity, price: price * quantity, title });
+    navigation.navigate('PurchaseCompleted', { quantity, price: price * quantity, title});
   };
 
   return (

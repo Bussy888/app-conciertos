@@ -19,10 +19,10 @@ const ReembolsoScreen = () => {
         text2: 'Se realizó el reembolso con éxito',
       });
       setTimeout(() => {
-        navigation.navigate('Tickets');
+        navigation.navigate('TicketsMenu');
       }, 2000); // Espera 2 segundos antes de navegar
     } else {
-      navigation.navigate('Tickets');
+      navigation.navigate('TicketsMenu');
     }
   };
 
