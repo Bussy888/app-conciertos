@@ -52,6 +52,9 @@ const EditProfileScreen = ({ navigation, route }) => {
         value={displayName}
         onChangeText={setDisplayName}
       />
+      
+      
+      
       <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
         <Text style={styles.saveButtonText}>GUARDAR CAMBIOS</Text>
       </TouchableOpacity>

@@ -11,44 +11,48 @@ const TicketsScreen = () => {
 
   const renderCartItem = ({ item }) => (
     <SafeAreaView style={styles.card}>
-    <Image source={{ uri: item.image }} style={styles.image} />
-    <View style={styles.details}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.date}>{item.date}</Text>
-      <Text style={styles.quantity}>Cantidad: {item.quantity}</Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.flexButton} onPress={() => navigation.navigate('VerTicketsScreen', { event: item })}>
-          <LinearGradient
-            colors={['#6ED0E0', '#E04989']}
-            start={{ x: 0, y: 0.5 }}
-            end={{ x: 1, y: 0.5 }}
-            style={styles.gradientButton}>
-            <Text style={styles.secondaryButtonText}>Ver Ticket</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.flexButton} onPress={() => navigation.navigate('ReembolsoScreen', { itemId: item.id })}>
-          <LinearGradient
-          colors={['#B5B2B2', '#FF0000' ]}
-          start={{ x: 0, y: 0.5 }}
-          end={{ x: 1, y: 0.5 }}
-          style={styles.gradientButton}>
-          <Text style={styles.secondaryButtonText}>Reembolso</Text>
-          </LinearGradient>
-        </TouchableOpacity>
+      <Image source={{ uri: item.image }} style={styles.image} />
+      <View style={styles.details}>
+        <Text style={styles.title}>{item.title}</Text>
+        <Text style={styles.date}>{item.date}</Text>
+        <Text style={styles.quantity}>Cantidad: {item.quantity}</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.flexButton} onPress={() => navigation.navigate('VerTicketsScreen', { event: item })}>
+            <LinearGradient
+              colors={['#6ED0E0', '#E04989']}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+              style={styles.gradientButton}>
+              <Text style={styles.secondaryButtonText}>Ver Ticket</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.flexButton} onPress={() => navigation.navigate('ReembolsoScreen', { itemId: item.id })}>
+            <LinearGradient
+              colors={['#B5B2B2', '#FF0000' ]}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+              style={styles.gradientButton}>
+              <Text style={styles.secondaryButtonText}>Reembolso</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  </SafeAreaView>
+    </SafeAreaView>
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={cartItems}
-        renderItem={renderCartItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.list}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      {cartItems.length === 0 ? (
+        <Text style={styles.emptyMessage}>No tiene eventos guardados aún</Text>
+      ) : (
+        <FlatList
+          data={cartItems}
+          renderItem={renderCartItem}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.list}
+        />
+      )}
+    </SafeAreaView>
   );
 };
 
@@ -56,6 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    
   },
   list: {
     padding: 30,
@@ -122,6 +127,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     textAlign: 'center',
+  },
+  emptyMessage: {
+
+    color: '#fff',
+    fontSize: 20,
+    textAlign: 'center',
+    justifyContent: 'center',
+    marginTop: 400,
+    
   },
 });
 

@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { collection, addDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebase'; // Asegúrate de importar tu configuración de Firebase
+import LoginScreen from './LoginScreen';
 
 // Importa la imagen de fondo desde una URL
 const backgroundImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZW0lIGtatjKvieuNitPdfQE0ukLHQQbPHxA&s';
@@ -31,7 +32,7 @@ const SignupScreen = ({ navigation }) => {
             });
 
             Alert.alert('Éxito', 'Cuenta creada con éxito');
-            navigation.navigate('login'); // Navegar a la pantalla de inicio de sesión
+            navigation.navigate(LoginScreen); // Navegar a la pantalla de inicio de sesión
         } catch (error) {
             console.error('Error al crear la cuenta:', error);
             Alert.alert('Error', error.message);

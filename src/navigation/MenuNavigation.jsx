@@ -16,6 +16,7 @@ import TicketInSaleScreen from '../screens/TicketsInSaleScreen';
 import PurchaseCompletedScreen from '../screens/PurchaseCompletedScreen';
 import ReembolsoScreen from '../screens/ReembolsoScreen'; 
 import VerTicketsScreen from '../screens/VerTicketsScreen';
+import LoginScreen from '../screens/LoginScreen'; 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,6 +24,7 @@ const Tab = createBottomTabNavigator();
 const ExploreStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+
       <Stack.Screen name="ExploreMenu" component={ExploreScreen} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="EventDetails" component={EventDetailsScreen} />
@@ -92,5 +94,16 @@ const MenuNavigation = () => {
     </Tab.Navigator>
   );
 };
+const AppNavigator = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Main" component={TabNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
 
 export default MenuNavigation;
