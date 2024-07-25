@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import useCartStore from '../store/cartStore';
 
 const TicketInSaleScreen = ({ route, navigation }) => {
   const { title, imageUri, location, date, time, price } = route.params;
   const [quantity, setQuantity] = useState(1);
+  const addToCart = useCartStore((state)=> state.addToCart);
 
   const handleIncrease = () => setQuantity(prevQuantity => prevQuantity + 1);
   const handleDecrease = () => setQuantity(prevQuantity => (prevQuantity > 1 ? prevQuantity - 1 : 1));
 
   const handlePurchase = () => {
+    const item = { id: Date.now().toString(), title, image: imageUri, date, quantity };
+    addToCart(item);
     navigation.navigate('PurchaseCompleted', { quantity, price: price * quantity, title });
   };
 
