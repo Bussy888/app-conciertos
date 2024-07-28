@@ -27,3 +27,5 @@ expo start
 ## Abrir la aplicación en tu dispositivo móvil:
 
 Escanea el código QR que aparece en la terminal o en el navegador utilizando la aplicación Expo Go en tu dispositivo móvil.
+## Demo
+https://www.youtube.com/watch?v=TPerb5VaZjY 
